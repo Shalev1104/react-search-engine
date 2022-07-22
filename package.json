@@ -1,11 +1,11 @@
 {
     "name": "react-search-engine",
-    "version": "0.1.0",
-    "private": "false",
+    "version": "1.0.0",
     "license": "MIT",
     "author": {
         "name": "Shalev Sror",
-        "email": "shalevsror@gmail.com"
+        "email": "shalevsror@gmail.com",
+        "linkedin": "https://www.linkedin.com/in/shalevsror/"
     },
     "repository": {
         "type": "git",
