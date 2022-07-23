@@ -1,0 +1,40 @@
+# Name of the workflow
+name: Release new version
+
+# Run on every commit tag which begins with "v" (e.g., "v0.1.4")
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+# Automatically publish a NPM release
+  npm-publish:
+    name: NPM Release
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/master' }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Use Node ${{ matrix.node }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install deps and build (with cache)
+        uses: bahmutov/npm-install@v1
+      - name: Publish
+        run: npm publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+# Automatically create a GitHub Release, with release details specified (the relevant commits)
+  github-release:
+    name: Github Release
+    needs: [npm-publish]
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/master' }}
+    steps:
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
