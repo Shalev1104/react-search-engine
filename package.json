@@ -1,6 +1,6 @@
 {
     "name": "react-search-engine",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "license": "MIT",
     "author": {
         "name": "Shalev Sror",
@@ -14,10 +14,11 @@
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
     "files": [
-        "dist", "src"
+        "dist",
+        "src"
     ],
     "engines": {
-        "node":">=10"
+        "node": ">=10"
     },
     "scripts": {
         "start": "tsdx watch",
@@ -29,7 +30,7 @@
         "minor": "npm version minor",
         "major": "npm version major"
     },
-    "peerDependencies": { 
+    "peerDependencies": {
         "react": ">=16"
     },
     "husky": {
