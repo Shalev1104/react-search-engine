@@ -12,7 +12,6 @@ jobs:
   npm-publish:
     name: NPM Release
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/master' }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -32,7 +31,6 @@ jobs:
     name: Github Release
     needs: [npm-publish]
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/master' }}
     steps:
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
