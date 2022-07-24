@@ -1,5 +1,5 @@
 import { Reducer } from "react";
-import type { ReducerState, ReducerAction, FilterAction } from "../types/reducer";
+import type { ReducerState, ReducerAction, FilterAction, ResetAction } from "../types/reducer";
 import { SearchActions } from "../types/reducer";
 
 const matchInput = (inputType: FilterAction['payload']['inputType'], value: FilterAction['payload']['value']) => {
@@ -22,14 +22,14 @@ export const searchReducer: Reducer<ReducerState, ReducerAction> = (state, {type
     switch (type) {
 
         case SearchActions.CHANGE_FILTER:
-            const { inputType, value, key } = payload;
+            const { inputType, value, key } = payload as FilterAction['payload'];
             return {
                     ...state, 
                     [key]: matchInput(inputType, value)
             };
             
         case SearchActions.RESET:
-            const { initialState } = payload;
+            const { initialState } = payload as ResetAction['payload'];
             return initialState;
 
         default:
