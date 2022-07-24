@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from "react";
-import type { SearchBarField, SearchProvider } from "./types/components";
-import { searchReducer } from "./SearchReducer";
-import { FilterAction, SearchActions } from "./types/reducer";
+import type { SearchBarField, SearchProvider } from "../types/components";
+import { searchReducer } from "../reducers/SearchReducer";
+import { FilterAction, SearchActions } from "../types/reducer";
 
 type Context = {
     filters: Parameters<typeof searchReducer>[0];
@@ -22,10 +22,10 @@ export const SearchEngine: React.FC<SearchProvider> = ({ children, onFilter, ...
     
     const [state, dispatch] = useReducer(searchReducer, initialState);
 
-    const onChange: Context['onChange'] = ({key, inputType, value}) =>  
+    const onChange: Context['onChange'] = ({ key, inputType, value }) =>
         dispatch({
             type: SearchActions.CHANGE_FILTER, 
-            payload: {key, value, inputType} 
+            payload: { key, value, inputType } 
         });
 
     const reset: Context['reset'] = () => { 
@@ -37,7 +37,7 @@ export const SearchEngine: React.FC<SearchProvider> = ({ children, onFilter, ...
     useEffect(() => onFilter?.(state), [onChange]);
     
     return (
-        <SearchContext.Provider value={{filters: state, onChange, reset}}>
+        <SearchContext.Provider value={{ filters: state, onChange, reset }}>
             <div {...style}>
                 {children}
             </div>

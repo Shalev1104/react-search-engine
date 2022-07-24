@@ -1,10 +1,7 @@
 import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { SearchEngine } from '../src/SearchEngine';
-import { SearchBar } from '../src/SearchBar';
-import { SearchButton } from '../src/SearchButton';
-import { ResetButton } from '../src/ResetButton';
+import { ResetButton, SearchBar, SearchButton, SearchEngine } from '../src/.'
 
 const App = () => {
   return (
