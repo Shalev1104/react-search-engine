@@ -1,14 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSearch } from "../contexts/SearchEngine";
 import type { Reset } from "../types/buttons";
 
-export const ResetButton: React.FC<Reset> = ({ text, onReset, ...style }) => {
+export const ResetButton: React.FC<Reset> = ({ text = 'Reset', onReset, ...style }) => {
     const { reset } = useSearch();
 
-    useEffect(() => onReset?.(), [reset]);
+    const handleReset = () => {
+        reset();
+        onReset?.();
+    }
 
     return (
-        <button {...style} onClick={reset}>
+        <button {...style} onClick={handleReset}>
             {text}
         </button>
     )
