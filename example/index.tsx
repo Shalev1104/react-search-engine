@@ -17,11 +17,11 @@ const App = () => {
         id="colors"
         label="Select a color"
         inputType="select"
-        value='Red'
+        value={1}
         options={{
-          red: 'Red',
-          green: 'Green',
-          blue: 'Blue',
+          red: 1,
+          green: 2,
+          blue: 3,
         }}
       />
 

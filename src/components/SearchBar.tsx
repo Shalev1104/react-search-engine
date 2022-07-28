@@ -2,7 +2,7 @@ import React from "react";
 import type { SearchBarField } from "../types/components";
 import { useSearch } from "../contexts/SearchEngine";
 
-export const SearchBar: React.FC<SearchBarField> = ({ id, label, className, style, ...rest }) => {
+export default function SearchBar({ id, label, className, style, ...rest }: SearchBarField) {
     
     const { filters, onChange } = useSearch();
 

@@ -1,7 +1,7 @@
 import React from "react";
 import type { Search } from "../types/buttons";
 
-export const SearchButton: React.FC<Search> = ({ text = 'Search', onSearch, ...style }) => {
+export default function SearchButton({ text = 'Search', onSearch, ...style }: Search) {
 
     return (
         <button {...style} onClick={onSearch}>

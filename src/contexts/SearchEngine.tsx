@@ -2,7 +2,7 @@ import React, { useEffect, useReducer } from "react";
 import type { SearchProvider } from "../types/components";
 import { searchReducer } from "../reducers/SearchReducer";
 import { FilterAction, SearchActions } from "../types/reducer";
-import { SearchBar } from '../components/SearchBar';
+import SearchBar from '../components/SearchBar';
 
 type Context = {
     filters: Parameters<typeof searchReducer>[0];
@@ -14,7 +14,7 @@ const SearchContext = React.createContext<Context>(null as any);
 
 export const useSearch = () => React.useContext(SearchContext);
 
-export const SearchEngine: React.FC<SearchProvider> = ({ children, onFilter, ...style }) => {
+export default function SearchEngine({ children, onFilter, ...style }: SearchProvider) {
     
     const initialState = Object.fromEntries(React.Children
         .toArray(children)
