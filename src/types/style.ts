@@ -1,3 +1,4 @@
+import React from 'react';
 
 type StyleElements = Partial<{
     className: string;

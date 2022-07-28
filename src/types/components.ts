@@ -1,3 +1,5 @@
+
+import React from 'react';
 import type { SelectInput, NumberInput, TextInput } from './inputs';
 import type { StyleElements } from './style';
 
