@@ -1,4 +1,3 @@
-# Name of the workflow
 name: Release new version
 
 # Run on every commit tag which begins with "v" (e.g., "v0.1.4")
@@ -8,7 +7,7 @@ on:
       - "v*"
 
 jobs:
-# Automatically publish a NPM release
+# publish a NPM release
   npm-publish:
     name: NPM Release
     runs-on: ubuntu-latest
@@ -19,17 +18,36 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
+          registry-url: 'https://registry.npmjs.org'
       - name: Install deps and build (with cache)
         uses: bahmutov/npm-install@v1
       - name: Publish
-        run: npm publish
+        run: npm publish --access public
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-# Automatically create a GitHub Release, with release details specified (the relevant commits)
+# publish a Github Packages
+  github-packages:
+    name: GitHub Packages
+    needs: [npm-publish]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          registry-url: 'https://npm.pkg.github.com'
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# Publish GitHub Release, with release details specified (the relevant commits)
   github-release:
     name: Github Release
-    needs: [npm-publish]
+    needs: [github-packages]
     runs-on: ubuntu-latest
     steps:
       - uses: "marvinpinto/action-automatic-releases@latest"
