@@ -5,12 +5,14 @@ import { SearchActions } from "../types/reducer";
 const matchInput = (inputType: FilterAction['payload']['inputType'], value: FilterAction['payload']['value']) => {
     switch (inputType) {
 
-        case 'select':
         case 'number':
             return Number(value);
 
         case 'text':
             return value;
+
+        case 'select':
+            return typeof value === 'number' ? Number(value) : value;
 
         default:
             throw new Error(`Unknown input type: ${inputType}`);

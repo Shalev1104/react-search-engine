@@ -1,7 +1,8 @@
 import React, { useEffect, useReducer } from "react";
-import type { SearchBarField, SearchProvider } from "../types/components";
+import type { SearchProvider } from "../types/components";
 import { searchReducer } from "../reducers/SearchReducer";
 import { FilterAction, SearchActions } from "../types/reducer";
+import { SearchBar } from '../components/SearchBar';
 
 type Context = {
     filters: Parameters<typeof searchReducer>[0];
@@ -17,8 +18,10 @@ export const SearchEngine: React.FC<SearchProvider> = ({ children, onFilter, ...
     
     const initialState = Object.fromEntries(React.Children
         .toArray(children)
-        .map<SearchBarField>(child => (child as React.ReactElement).props)
-        .map(({ id, value }) => [id, value]));
+        .filter(child => React.isValidElement(child))
+        .filter(childElement => (childElement as JSX.Element).type === SearchBar)
+        .map(relevantChilds => (relevantChilds as JSX.Element).props)
+        .map(({ id, value }) => [id, value || '']));
     
     const [state, dispatch] = useReducer(searchReducer, initialState);
 
