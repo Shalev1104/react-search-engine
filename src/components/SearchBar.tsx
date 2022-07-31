@@ -7,7 +7,7 @@ export default function SearchBar({ id, label, className, style, ...rest }: Sear
     const { filters, onChange } = useSearch();
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) =>
-        onChange({key: id, inputType:rest.inputType, value: e.target.value});
+        onChange({id, value: e.target.value});
 
     return (
         <div className={className} style={style}>

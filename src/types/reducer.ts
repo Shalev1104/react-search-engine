@@ -10,11 +10,7 @@ type Action<Type, Payload> = {
     payload: Payload;
 }
 
-type FilterAction = Action<SearchActions.CHANGE_FILTER, {
-    key: SearchBarField['id'],
-    value: SearchBarField['value'],
-    inputType: SearchBarField['inputType']
-}>;
+type FilterAction = Action<SearchActions.CHANGE_FILTER, Pick<SearchBarField, 'id' | 'value'>>
 
 type ResetAction = Action<SearchActions.RESET, {
     initialState: ReducerState
