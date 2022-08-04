@@ -1,37 +1,56 @@
 import React from "react";
 import type { SearchBarField } from "../types/components";
 import { useSearch } from "../contexts/SearchEngine";
+import { matchInput } from '../functions/matchInput';
 
 export default function SearchBar({ id, label, className, style, ...rest }: SearchBarField) {
-    
-    const { filters, onChange } = useSearch();
 
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) =>
-        onChange({id, value: e.target.value});
+    const { filters, onChange } = useSearch();
+    
+    const handleChange = ({ target }: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+        const inputType = target.getAttribute('type');
+        const { value, checked } = target as HTMLInputElement;
+
+        onChange({ 
+            id, 
+            value: matchInput (
+                inputType === 'checkbox' ? checked : value,
+                inputType
+            )
+        });
+    }
+
+    const attributes = <T,> (x: T) => {
+        return {
+            id,
+            name: id,
+            onChange: handleChange,
+            
+            ...typeof x === 'boolean' ? 
+            { checked: x } : { value: x },
+
+            ...'placeholder' in rest && { placeholder: rest.placeholder },
+            
+            ...'min' && 'max' in rest && { min: rest.min, max: rest.max },
+        }
+    }
 
     return (
         <div className={className} style={style}>
-    
-            <label htmlFor={id}>{label}</label>
-            { (rest.inputType === 'select' && rest.options) ?
-                <select
-                    id={id}
-                    name={id}
-                    value={filters[id]}
-                    onChange={handleChange}>
-                        { Object.keys(rest.options).map(option =>
-                            <option key={option} value={rest.options[option]}>{option}</option>) }
+
+            { label && <label htmlFor={id}> {label} </label> }
+
+            { 'options' in rest ?
+
+                <select {...attributes(filters[id])}>
+
+                    { Object.entries(rest.options).map(([key, value]) =>
+                            <option key={key} value={value}>{key}</option> )}
+
                 </select>
-            :
-                <input 
-                    type={rest.inputType}
-                    id={id} 
-                    name={id}
-                    value={filters[id]}
-                    onChange={handleChange}
-                    {...rest.inputType === 'text' && { placeholder: rest.placeholder }}
-                />
+                :
+                <input type={rest.inputType} {...attributes(filters[id])}/>
             }
         </div>
-    )
+    );
 }

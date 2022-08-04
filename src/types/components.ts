@@ -1,6 +1,6 @@
 
 import React from 'react';
-import type { SelectInput, NumberInput, TextInput } from './inputs';
+import type { Inputs } from './inputs'
 import type { StyleElements } from './style';
 
 type SearchProvider = {
@@ -10,7 +10,7 @@ type SearchProvider = {
 
 type SearchBarField = {
     id: string;
-    label: string;
-} & StyleElements & (SelectInput | TextInput | NumberInput);
+    label?: string;
+} & StyleElements & Inputs;
 
 export type { SearchProvider, SearchBarField };

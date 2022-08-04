@@ -3,10 +3,15 @@ export function defaultInput(type: HTMLInputElement['type']) {
     switch (type) {
         
         case 'text':
-            return '';
+        case 'date':
+        case 'month':
+        case 'week':
+        case 'time':
+        case 'datetime-local':
+            return String();
 
         case 'number':
-            return NaN;
+            return Number();
         
         case 'radio':
         case 'checkbox':
