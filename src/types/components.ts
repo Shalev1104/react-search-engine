@@ -8,9 +8,6 @@ type SearchProvider = {
     onFilter?: (filtered: any) => void
 } & StyleElements;
 
-type SearchBarField = {
-    name: string;
-    label?: string;
-} & StyleElements & Inputs;
+type SearchBarField = Inputs & StyleElements;
 
 export type { SearchProvider, SearchBarField };
