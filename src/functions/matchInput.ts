@@ -1,12 +1,29 @@
 
 
 export function matchInput(value: string | boolean, type: HTMLInputElement['type'] | null) {
-    switch (type) {    
+    const parsedNumber = Number(value);
+    
+    switch (type) {
         
         case 'number':
-            return Number(value); 
-            
-        default:
+        case 'range':
+            return parsedNumber;
+        
+        case 'text':
+        case 'search':
+        case 'checkbox':
+        case 'radio':
+        case 'date':
+        case 'month':
+        case 'week':
+        case 'time':
+        case 'datetime-local':
             return value;
+            
+        case 'select':
+            return isNaN(parsedNumber) ? value : parsedNumber;
+
+        default:
+            throw new Error(`Unsupported input type: ${type}`);
     }
 }

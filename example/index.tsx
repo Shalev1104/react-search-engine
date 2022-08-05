@@ -4,27 +4,26 @@ import * as ReactDOM from 'react-dom';
 import { ResetButton, SearchBar, SearchButton, SearchEngine } from '../src/.'
 
 enum Colors {
-  red = 'Red',
-  green = 'Green',
-  blue = 'Blue'
+  Red,
+  Green,
+  Blue
 }
 
 const App = () => {
   return (
-    <SearchEngine
-      onFilter={e => console.log(e)}>
+    <SearchEngine>
       
       <SearchBar 
         name="name" 
         label="Full Name" 
-        inputType="text" 
+        type="text" 
         placeholder="Type your name..." 
       />
 
       <SearchBar 
         name="id" 
         label="Identity Card" 
-        inputType="number"
+        type="number"
         placeholder="Type your ID..."
         max={10}
         min={0} 
@@ -34,13 +33,13 @@ const App = () => {
       <SearchBar
         name="colors"
         label="Select a color"
-        inputType="select"
-        value={Colors.green}
+        type="select"
+        value={Colors.Green}
         options={Colors}
       />
 
       <SearchBar
-        inputType='checkbox'
+        type='checkbox'
         name='checkbox'
         label='Checkbox'
       />

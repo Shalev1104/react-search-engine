@@ -3,19 +3,18 @@ import type { SearchBarField } from "../types/components";
 import { useSearch } from "../contexts/SearchEngine";
 import { matchInput } from '../functions/matchInput';
 
-export default function SearchBar({ name, label, className, style, ...rest }: SearchBarField) {
+export default function SearchBar({ type, name, label, className, style, ...rest }: SearchBarField) {
 
     const { filters, onChange } = useSearch();
     
     const handleChange = ({ target }: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
-        const inputType = target.getAttribute('type');
         const { value, checked } = target as HTMLInputElement;
 
         onChange({ 
             name, 
             value: matchInput (
-                inputType === 'checkbox' ? checked : value,
-                inputType
+                type === 'checkbox' ? checked : value,
+                type
             )
         });
     }
@@ -25,11 +24,12 @@ export default function SearchBar({ name, label, className, style, ...rest }: Se
             onChange: handleChange,
             name,
             id: name,
-
+            ...rest,
+            
             ...typeof x === 'boolean' ? 
             { checked: x } : { value: x },
-
-            ...rest
+            
+            ...type !== 'select' && { type },
         }
     }
 
@@ -42,12 +42,16 @@ export default function SearchBar({ name, label, className, style, ...rest }: Se
 
                 <select {...attributes(filters[name])}>
 
-                    { Object.entries(rest.options).map(([key, value]) =>
-                            <option key={key} value={value}>{key}</option> )}
+                    { Object.entries(rest.options)
+                    .map(([key, value]) => rest.options instanceof Array ? 
+                        [value, value] : [key, value])
+                    .filter(([key]) => isNaN(Number(key)))
+                    .map(([key, value]) => 
+                        <option key={key} value={value}>{key}</option> )}
 
                 </select>
                 :
-                <input type={rest.inputType} {...attributes(filters[name])}/>
+                <input {...attributes(filters[name])}/>
             }
         </div>
     );

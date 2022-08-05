@@ -17,8 +17,8 @@ type InputTypes = (
 type TypeableAttributes = Partial<{
     placeholder: string;
 }>
-type DropdownAttributes = {
-    options: Record<string, string>;
+type DropdownAttributes<T> = {
+    options: Record<string, T> | T[];
     multiple?: boolean;
     autoFocus?: boolean;
     size?: number;
@@ -43,7 +43,7 @@ type CharacterAttributes = Partial<{
 }>
 
 type Input<Type, Value> = {
-    inputType: Type;
+    type: Type;
     name: string;
 } & Partial<{
     value: Value;
@@ -53,23 +53,23 @@ type Input<Type, Value> = {
 
 type Extends<T, U, K> = T extends U ? K : unknown
 
-type AdditionalAttributes<T> = (
+type AdditionalAttributes<T, U> = (
 
     Extends<T, TypeableInputs, TypeableAttributes> &
-    Extends<T, DropdownInputs, DropdownAttributes> &
+    Extends<T, DropdownInputs, DropdownAttributes<U>> &
     Extends<T, BooleanInputs, BooleanAttributes>   &
     Extends<T, DateTimeInputs, DateTimeAttributes> &
     Extends<T, NumericInputs, NumericAttributes>   &
     Extends<T, CharacterInputs, CharacterAttributes>
 )
 
-type Attributes<T extends InputTypes, Value> = Input<T, Value> & AdditionalAttributes<T>
+type Attributes<T extends InputTypes, Value> = Input<T, Value> & AdditionalAttributes<T, Value>
 
 type NumberInput   = Attributes<'number', number>
 type TextInput     = Attributes<'text', string>
 type SearchInput   = Attributes<'search', string>
 
-type SelectInput   = Attributes<'select', string>
+type SelectInput   = Attributes<'select', string | number>
 
 type CheckboxInput = Attributes<'checkbox', boolean>
 type RadioInput    = Attributes<'radio', boolean>

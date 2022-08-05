@@ -3,6 +3,7 @@ export function defaultInput(type: HTMLInputElement['type']) {
     switch (type) {
         
         case 'text':
+        case 'search':
         case 'date':
         case 'month':
         case 'week':
@@ -11,13 +12,17 @@ export function defaultInput(type: HTMLInputElement['type']) {
             return String();
 
         case 'number':
+        case 'range':
             return Number();
         
         case 'radio':
         case 'checkbox':
-            return false;
+            return Boolean();
+        
+        case 'select':
+            return undefined;
 
         default:
-            return undefined;
+            throw new Error(`Unsupported input type: ${type}`);
     }
 }
