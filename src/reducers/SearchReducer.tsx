@@ -7,10 +7,10 @@ export const searchReducer: Reducer<ReducerState, ReducerAction> = (state, {type
     switch (type) {
 
         case SearchActions.CHANGE_FILTER:
-            const { value, id } = payload as FilterAction['payload'];
+            const { value, name } = payload as FilterAction['payload'];
             return {
                     ...state, 
-                    [id]: value
+                    [name]: value
             };
             
         case SearchActions.RESET:

@@ -22,14 +22,14 @@ export default function SearchEngine({ children, onFilter, ...style }: SearchPro
         .filter(child => React.isValidElement(child))
         .filter(childElement => (childElement as JSX.Element).type === SearchBar)
         .map<SearchBarField>(relevantChilds => (relevantChilds as JSX.Element).props)
-        .map(({ id, value, inputType }) => [id, value || defaultInput(inputType) ]));
+        .map(({ name, value, inputType }) => [name, value || defaultInput(inputType) ]));
 
     const [state, dispatch] = useReducer(searchReducer, initialState);
 
-    const onChange: Context['onChange'] = ({ id, value }) =>
+    const onChange: Context['onChange'] = ({ name, value }) =>
         dispatch({
             type: SearchActions.CHANGE_FILTER, 
-            payload: { id, value } 
+            payload: { name, value } 
         });
 
     const reset: Context['reset'] = () => { 

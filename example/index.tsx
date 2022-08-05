@@ -11,26 +11,28 @@ enum Colors {
 
 const App = () => {
   return (
-    <SearchEngine>
+    <SearchEngine
+      onFilter={e => console.log(e)}>
       
       <SearchBar 
-        id="name" 
+        name="name" 
         label="Full Name" 
         inputType="text" 
         placeholder="Type your name..." 
       />
 
       <SearchBar 
-        id="id" 
+        name="id" 
         label="Identity Card" 
         inputType="number"
         placeholder="Type your ID..."
         max={10}
         min={0} 
+        step={5}
       />
 
       <SearchBar
-        id="colors"
+        name="colors"
         label="Select a color"
         inputType="select"
         value={Colors.green}
@@ -39,21 +41,8 @@ const App = () => {
 
       <SearchBar
         inputType='checkbox'
-        id='checkbox'
+        name='checkbox'
         label='Checkbox'
-      />
-
-      <input type='tel' value={'adasd'}/>
-      <input type='tel' value={'adasd'}/>
-      <input type='tel' value={'adasd'}/>
-      <input type='tel' value={'adasd'}/>
-
-      <SearchBar 
-        inputType='time'
-        id='date'
-        max={'06:20'}
-        value={'06:20'}
-        label='Date List'
       />
 
       <ResetButton />

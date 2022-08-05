@@ -9,7 +9,7 @@ type SearchProvider = {
 } & StyleElements;
 
 type SearchBarField = {
-    id: string;
+    name: string;
     label?: string;
 } & StyleElements & Inputs;
 
