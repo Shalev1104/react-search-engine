@@ -29,7 +29,7 @@ jobs:
 # Publish GitHub Release, with release details specified (the relevant commits)
   github-release:
     name: Github Release
-    needs: [github-packages]
+    needs: [npm-publish]
     runs-on: ubuntu-latest
     steps:
       - uses: "marvinpinto/action-automatic-releases@latest"
