@@ -26,24 +26,6 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-# publish a Github Packages
-  github-packages:
-    name: GitHub Packages
-    needs: [npm-publish]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-          registry-url: 'https://npm.pkg.github.com'
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 # Publish GitHub Release, with release details specified (the relevant commits)
   github-release:
     name: Github Release

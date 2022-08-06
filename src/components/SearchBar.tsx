@@ -19,18 +19,34 @@ export default function SearchBar({ type, name, label, className, style, ...rest
         });
     }
 
+    const isDropdown = 'options' in rest;
+
     const attributes = <T,> (x: T) => {
         return {
             onChange: handleChange,
             name,
             id: name,
             ...rest,
+            options: undefined,
             
             ...typeof x === 'boolean' ? 
             { checked: x } : { value: x },
             
-            ...type !== 'select' && { type },
+            ...!isDropdown && { type },
         }
+    }
+
+    const renderOptions = () => {
+        if (!('options' in rest)) return undefined;
+
+        return (
+            Object.entries(rest.options)
+                .map(([key, value]) => rest.options instanceof Array ? 
+                    [value, value] : [key, value])
+                .filter(([key]) => isNaN(Number(key)))
+                .map(([key, value]) => 
+                    <option key={key} value={value}>{key}</option> )
+        )
     }
 
     return (
@@ -38,17 +54,10 @@ export default function SearchBar({ type, name, label, className, style, ...rest
 
             { label && <label htmlFor={name}> {label} </label> }
 
-            { 'options' in rest ?
+            { isDropdown ?
 
                 <select {...attributes(filters[name])}>
-
-                    { Object.entries(rest.options)
-                    .map(([key, value]) => rest.options instanceof Array ? 
-                        [value, value] : [key, value])
-                    .filter(([key]) => isNaN(Number(key)))
-                    .map(([key, value]) => 
-                        <option key={key} value={value}>{key}</option> )}
-
+                    {renderOptions()}
                 </select>
                 :
                 <input {...attributes(filters[name])}/>
