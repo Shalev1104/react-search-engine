@@ -1,5 +1,7 @@
 
-export function defaultInput(type: HTMLInputElement['type']) {
+type Type = HTMLInputElement['type'];
+
+export function defaultInput(type: Type) {
     switch (type) {
         
         case 'text':
@@ -9,6 +11,7 @@ export function defaultInput(type: HTMLInputElement['type']) {
         case 'week':
         case 'time':
         case 'datetime-local':
+        case 'select':
             return String();
 
         case 'number':
@@ -19,9 +22,6 @@ export function defaultInput(type: HTMLInputElement['type']) {
         case 'checkbox':
             return Boolean();
         
-        case 'select':
-            return undefined;
-
         default:
             throw new Error(`Unsupported input type: ${type}`);
     }

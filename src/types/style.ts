@@ -1,8 +1,6 @@
-import React from 'react';
+import { CSSProperties } from "react";
 
-type StyleElements = Partial<{
+export type StyleElements = Partial<{
     className: string;
-    style: React.CSSProperties;
+    style: CSSProperties;
 }>
-
-export type { StyleElements };

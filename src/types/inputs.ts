@@ -1,3 +1,4 @@
+import { StyleElements } from './style'
 
 type TypeableInputs  = 'number'   | 'text'   | 'search'
 type DropdownInputs  = 'select'
@@ -12,17 +13,20 @@ type InputTypes = (
     | BooleanInputs
     | NumericInputs
     | DateTimeInputs
+    | CharacterInputs
 )
 
 type TypeableAttributes = Partial<{
     placeholder: string;
 }>
-type DropdownAttributes<T> = {
-    options: Record<string, T> | T[];
-    multiple?: boolean;
-    autoFocus?: boolean;
-    size?: number;
-}
+type DropdownAttributes<T> = { 
+    options: Record<string, T> | T[] 
+} & Partial<{
+    autoComplete: string
+    autoFocus: boolean
+    multiple: boolean
+    size: number
+}>
 type NumericAttributes = Partial<{
     min: number;
     max: number;
@@ -36,19 +40,18 @@ type DateTimeAttributes = Partial<{
 }>
 type CharacterAttributes = Partial<{
     pattern: string;
-    maxlength: number;
-    minlength: number;
+    maxLength: number;
+    minLength: number;
     size: number;
     spellcheck: boolean;
 }>
 
-type Input<Type, Value> = {
+type Attributes<Type, Value> = {
     type: Type;
     name: string;
 } & Partial<{
     value: Value;
     label: string;
-    disabled: boolean;
 }>
 
 type Extends<T, U, K> = T extends U ? K : unknown
@@ -62,25 +65,30 @@ type AdditionalAttributes<T, U> = (
     Extends<T, NumericInputs, NumericAttributes>   &
     Extends<T, CharacterInputs, CharacterAttributes>
 )
+type GlobalAttributes = StyleElements;
 
-type Attributes<T extends InputTypes, Value> = Input<T, Value> & AdditionalAttributes<T, Value>
+type Input<T extends InputTypes, U> = (
+    Attributes<T, U> & 
+    AdditionalAttributes<T, U> &
+    GlobalAttributes
+)
 
-type NumberInput   = Attributes<'number', number>
-type TextInput     = Attributes<'text', string>
-type SearchInput   = Attributes<'search', string>
+type NumberInput   = Input<'number', number>
+type TextInput     = Input<'text', string>
+type SearchInput   = Input<'search', string>
 
-type SelectInput   = Attributes<'select', string | number>
+type SelectInput   = Input<'select', string | number>
 
-type CheckboxInput = Attributes<'checkbox', boolean>
-type RadioInput    = Attributes<'radio', boolean>
+type CheckboxInput = Input<'checkbox', boolean>
+type RadioInput    = Input<'radio', boolean>
 
-type DateInput     = Attributes<'date', string>
-type MonthInput    = Attributes<'month', string>
-type WeekInput     = Attributes<'week', string>
-type TimeInput     = Attributes<'time', string>
-type DateTimeInput = Attributes<'datetime-local', string>
+type DateInput     = Input<'date', string>
+type MonthInput    = Input<'month', string>
+type WeekInput     = Input<'week', string>
+type TimeInput     = Input<'time', string>
+type DateTimeInput = Input<'datetime-local', string>
 
-type RangeInput    = Attributes<'range', number>
+type RangeInput    = Input<'range', string>
 
 export type Inputs = (
     | NumberInput   | TextInput     | SearchInput

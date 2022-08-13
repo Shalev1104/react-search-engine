@@ -3,7 +3,7 @@ import type { SearchBarField } from "../types/components";
 import { useSearch } from "../contexts/SearchEngine";
 import { matchInput } from '../functions/matchInput';
 
-export default function SearchBar({ type, name, label, className, style, ...rest }: SearchBarField) {
+export default function SearchBar({ type, name, label, value, className, style, ...rest }: SearchBarField) {
 
     const { filters, onChange } = useSearch();
     
@@ -13,7 +13,7 @@ export default function SearchBar({ type, name, label, className, style, ...rest
         onChange({ 
             name, 
             value: matchInput (
-                type === 'checkbox' ? checked : value,
+                type === 'checkbox' || type === 'radio' ? checked : value,
                 type
             )
         });
@@ -21,27 +21,23 @@ export default function SearchBar({ type, name, label, className, style, ...rest
 
     const isDropdown = 'options' in rest;
 
-    const attributes = <T,> (x: T) => {
-        return {
-            onChange: handleChange,
-            name,
-            id: name,
-            ...rest,
-            options: undefined,
-            
-            ...typeof x === 'boolean' ? 
-            { checked: x } : { value: x },
-            
-            ...!isDropdown && { type },
-        }
+    const attributes = {
+        onChange: handleChange,
+        name,
+        id: name,
+        ...rest,
+        
+        [typeof filters[name] === 'boolean' ? 'checked' : 'value']: filters[name],
+        ...isDropdown ? {options: undefined} : {type},
     }
 
     const renderOptions = () => {
-        if (!('options' in rest)) return undefined;
+        if (!('options' in rest)) return null;
+        const { options } = rest;
 
         return (
-            Object.entries(rest.options)
-                .map(([key, value]) => rest.options instanceof Array ? 
+            Object.entries(options)
+                .map(([key, value]) => options instanceof Array ? 
                     [value, value] : [key, value])
                 .filter(([key]) => isNaN(Number(key)))
                 .map(([key, value]) => 
@@ -56,11 +52,11 @@ export default function SearchBar({ type, name, label, className, style, ...rest
 
             { isDropdown ?
 
-                <select {...attributes(filters[name])}>
+                <select {...attributes} >
                     {renderOptions()}
                 </select>
                 :
-                <input {...attributes(filters[name])}/>
+                <input {...attributes} />
             }
         </div>
     );
