@@ -1,6 +1,8 @@
 
+type Value = HTMLInputElement['value'] | HTMLInputElement['checked'];
+type Type = HTMLInputElement['type'] | null;
 
-export function matchInput(value: string | boolean, type: HTMLInputElement['type'] | null) {
+export function matchInput(value: Value, type: Type) {
     const parsedNumber = Number(value);
     
     switch (type) {
