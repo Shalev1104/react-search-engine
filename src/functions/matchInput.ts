@@ -1,8 +1,7 @@
 
-type Value = HTMLInputElement['value'] | HTMLInputElement['checked'];
 type Type = HTMLInputElement['type'] | null;
 
-export function matchInput(value: Value, type: Type) {
+export function matchInput(value: any, type: Type) {
     const parsedNumber = Number(value);
     
     switch (type) {
@@ -23,7 +22,7 @@ export function matchInput(value: Value, type: Type) {
             return value;
             
         case 'select':
-            return isNaN(parsedNumber) ? value : parsedNumber;
+            return value
 
         default:
             throw new Error(`Unsupported input type: ${type}`);

@@ -1,0 +1,21 @@
+
+button {
+    border: 1px solid $grey-border;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: .5s;
+
+    &:hover {
+        opacity: .9;
+        border-color: transparent;
+    }
+}
+
+.search-button {
+    background-color: #a2e59b;
+}
+
+.reset-button {
+    background-color: #d96a6a;
+}

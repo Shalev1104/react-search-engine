@@ -1,0 +1,29 @@
+
+body {
+    box-sizing: border-box;
+    margin: 10px;
+    color: $body;
+    font: 400 13px/20px 'Source Sans Pro', sans-serif;
+}
+
+svg {
+  display: block;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: max-content;
+  gap: 5px;
+  &:focus {
+    outline: 0;
+    
+    & .select {
+      box-shadow: 0 0 1px 1px $main;
+    }
+  }
+}

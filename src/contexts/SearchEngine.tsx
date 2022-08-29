@@ -26,10 +26,10 @@ export default function SearchEngine({ children, onFilter, ...style }: SearchPro
 
     const [state, dispatch] = useReducer(searchReducer, initialState);
 
-    const onChange: Context['onChange'] = ({ name, value }) =>
+    const changeFilter: Context['onChange'] = ({ name, value }) =>
         dispatch({
             type: SearchActions.CHANGE_FILTER, 
-            payload: { name, value } 
+            payload: { name, value }
         });
 
     const reset: Context['reset'] = () => { 
@@ -38,11 +38,11 @@ export default function SearchEngine({ children, onFilter, ...style }: SearchPro
             payload: { initialState } });
         };
 
-    useEffect(() => onFilter?.(state), [onChange]);
+    useEffect(() => onFilter?.(state), [changeFilter]);
     
     return (
-        <SearchContext.Provider value={{ filters: state, onChange, reset }}>
-            <div {...style}>
+        <SearchContext.Provider value={{ filters: state, onChange: changeFilter, reset }}>
+            <div className={`search-engine`} {...style}>
                 {children}
             </div>
         </SearchContext.Provider>

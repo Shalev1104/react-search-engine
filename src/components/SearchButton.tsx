@@ -1,10 +1,10 @@
 import React from "react";
 import type { Search } from "../types/buttons";
 
-export default function SearchButton({ text = 'Search', onSearch, ...style }: Search) {
+export default function SearchButton({ text = 'Search', onSearch, className, style }: Search) {
 
     return (
-        <button {...style} onClick={onSearch}>
+        <button onClick={onSearch} style={style} className={`search-button ${className}`}>
             {text}
         </button>
     )

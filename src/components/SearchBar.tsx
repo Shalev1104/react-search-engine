@@ -1,62 +1,54 @@
-import React from "react";
+import React, { useMemo } from "react";
 import type { SearchBarField } from "../types/components";
 import { useSearch } from "../contexts/SearchEngine";
 import { matchInput } from '../functions/matchInput';
+import Input from './Input';
+import Select from '../contexts/Select';
 
-export default function SearchBar({ type, name, label, value, className, style, ...rest }: SearchBarField) {
+export default function SearchBar({ label, className, style, ...attributes }: SearchBarField) {
 
     const { filters, onChange } = useSearch();
+    const { name, type } = attributes;
     
-    const handleChange = ({ target }: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
-        const { value, checked } = target as HTMLInputElement;
+    const value = useMemo(() => filters[name], [filters, name]);
 
+    const handleChange = (changed: typeof value) => {
         onChange({ 
-            name, 
-            value: matchInput (
-                type === 'checkbox' || type === 'radio' ? checked : value,
-                type
-            )
+            name,
+            value: matchInput(changed, type)
         });
     }
 
-    const isDropdown = 'options' in rest;
+    // const isDropdown = () => 'options' in attributes;
 
-    const attributes = {
-        onChange: handleChange,
-        name,
-        id: name,
-        ...rest,
-        
-        [typeof filters[name] === 'boolean' ? 'checked' : 'value']: filters[name],
-        ...isDropdown ? {options: undefined} : {type},
-    }
-
-    const renderOptions = () => {
-        if (!('options' in rest)) return null;
-        const { options } = rest;
+    const renderLabel = () => {
+        if (!label) return null;
 
         return (
-            Object.entries(options)
-                .map(([key, value]) => options instanceof Array ? 
-                    [value, value] : [key, value])
-                .filter(([key]) => isNaN(Number(key)))
-                .map(([key, value]) => 
-                    <option key={key} value={value}>{key}</option> )
+            <label htmlFor={name}>{label}</label>
         )
     }
 
     return (
-        <div className={className} style={style}>
 
-            { label && <label htmlFor={name}> {label} </label> }
+        <div className={`search-bar${className? ' ' + className: ''}`} style={style}>
 
-            { isDropdown ?
-
-                <select {...attributes} >
-                    {renderOptions()}
-                </select>
+            {renderLabel()}
+            
+            { 'options' in attributes ?
+                
+                <Select 
+                    {...attributes}
+                    options={Object.entries(attributes.options)}
+                    onChange={handleChange}
+                    values={value as string[]}
+                />
                 :
-                <input {...attributes} />
+                <Input 
+                    {...attributes} 
+                    onChange={handleChange} 
+                    value={value as string | number | boolean}
+                />
             }
         </div>
     );

@@ -2,7 +2,7 @@ import React from "react";
 import { useSearch } from "../contexts/SearchEngine";
 import type { Reset } from "../types/buttons";
 
-export default function ResetButton({ text = 'Reset', onReset, ...style }: Reset) {
+export default function ResetButton({ text = 'Reset', onReset, className, style }: Reset) {
     const { reset } = useSearch();
 
     const handleReset = () => {
@@ -11,7 +11,7 @@ export default function ResetButton({ text = 'Reset', onReset, ...style }: Reset
     }
 
     return (
-        <button {...style} onClick={handleReset}>
+        <button onClick={handleReset} style={style} className={`reset-button ${className}`}>
             {text}
         </button>
     )

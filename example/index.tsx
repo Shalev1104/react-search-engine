@@ -4,9 +4,9 @@ import * as ReactDOM from 'react-dom';
 import { ResetButton, SearchBar, SearchButton, SearchEngine } from '../src/.'
 
 enum Colors {
-  Red,
-  Green,
-  Blue
+  Red = "Red",
+  Green = "Green",
+  Blue = "Blue"
 }
 
 const App = () => {
@@ -31,17 +31,26 @@ const App = () => {
       />
 
       <SearchBar
-        name="colors"
-        label="Select a color"
-        type="select"
-        value={Colors.Green}
-        options={Colors}
-      />
-
-      <SearchBar
         type='checkbox'
         name='checkbox'
         label='Checkbox'
+        width={200}
+        />
+      
+      <SearchBar
+        name="colors1"
+        label="Select a color"
+        type="select"
+        value={[Colors.Green]}
+        options={Colors}
+        multiple
+      />
+      <SearchBar
+        name="colors2"
+        label="Select a color"
+        type="select"
+        value={[Colors.Green]}
+        options={Colors}
       />
 
       <ResetButton />

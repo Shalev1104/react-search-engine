@@ -1,0 +1,102 @@
+
+.select {
+  border: 1px solid $grey-border;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 4px;
+  padding: 5px;
+  min-width: 150px;
+  cursor: pointer;
+
+  .placeholder {
+    padding: 3px 6px;
+    color: $grey-text;
+  }
+
+  .values {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 5px;
+
+    .value {
+      display: flex;
+      padding: 3px 6px;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .multiple {
+      background: $main-light;
+      color: $main;
+      border-radius: 3px;
+
+      .delete {
+        font-size: 10px;
+      }
+    }
+  }
+
+  .indicators {
+    display: flex;
+    color: $grey-text;
+    font-size: 10px;
+  
+    .indicator {
+      padding: 8px;
+    }
+    .separator {
+      background-color: $grey-text;
+      margin: 6px 0;
+      width: 1px;
+    }
+  }
+}
+
+.options {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  cursor: pointer;
+
+  .option {
+    padding: 8px;
+    transition: .25s;
+    display: flex;
+    gap: 10px;
+    border: 1px solid $grey-border;
+  
+    .checkbox {
+      vertical-align: top;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 16px;
+      height: 16px;
+      padding: 2px;
+      border-radius: 2px;
+      color: $grey-border;
+      font-size: 10px;
+      border: 1px solid $grey-border;
+  
+    }
+  
+    &.selected {
+      background: $main-light;
+      border-color: $main;
+  
+      .checkbox {
+        border-color: $main-dark;
+        background: $main;
+      }
+    }
+    
+    &:hover {
+      background: $grey-background;
+    }
+    &:focus {
+      background: $grey-background;
+    }
+  }
+}
